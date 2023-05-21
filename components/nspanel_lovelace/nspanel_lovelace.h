@@ -29,6 +29,7 @@ class NSPanelLovelace : public Component, public uart::UARTDevice {
   void set_berry_driver_version(unsigned int value) { berry_driver_version_ = value; }
   void set_missed_updates_workaround(bool value) { use_missed_updates_workaround_ = value; }
   void set_update_baud_rate(unsigned int value) { update_baud_rate_ = value; }
+  void set_adv_update_mode(unsigned int value) { adv_update_mode_ = value; } 
 
   float get_setup_priority() const override { return setup_priority::DATA; }
 
@@ -75,6 +76,7 @@ class NSPanelLovelace : public Component, public uart::UARTDevice {
   unsigned int berry_driver_version_;
   bool use_missed_updates_workaround_ = true;
   unsigned int update_baud_rate_;
+  unsigned int adv_update_mode_;
 
   CallbackManager<void(std::string)> incoming_msg_callback_;
 
