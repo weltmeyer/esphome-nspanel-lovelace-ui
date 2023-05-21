@@ -192,7 +192,20 @@ void NSPanelLovelace::upload_tft(const std::string &url) {
   // Tells the Nextion the content length of the tft file and baud rate it will be sent at
   // Once the Nextion accepts the command it will wait until the file is successfully uploaded
   // If it fails for any reason a power cycle of the display will be needed
-  sprintf(command, "whmi-wris %d,%d,1", this->content_length_, this->update_baud_rate_);
+  
+  int whmiVersion=1;
+  switch(this->adv_update_mode_){
+    case 0:
+      break;
+    case 6:
+      whmiVersion=0;
+      break;
+  }
+  if(whmiVersion==1){
+    sprintf(command, "whmi-wris %d,%d,1", this->content_length_, this->update_baud_rate_);
+  }else{
+    sprintf(command, "whmi-wri %d,%d,1", this->content_length_, this->update_baud_rate_);
+  }
 
   // Clear serial receive buffer
   uint8_t d;
