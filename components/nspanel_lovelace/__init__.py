@@ -28,6 +28,7 @@ CONF_INCOMING_MSG = "on_incoming_msg"
 CONF_BERRY_DRIVER_VERSION = "berry_driver_version"
 CONF_USE_MISSED_UPDATES_WORKAROUND = "use_missed_updates_workaround"
 CONF_UPDATE_BAUD_RATE = "update_baud_rate"
+CONF_ADV_UPDATE_MODE= "adv_update_mode"
 
 
 def validate_config(config):
@@ -56,6 +57,7 @@ CONFIG_SCHEMA = cv.All(
             cv.Optional(CONF_BERRY_DRIVER_VERSION, default=999): cv.positive_int,
             cv.Optional(CONF_USE_MISSED_UPDATES_WORKAROUND, default=True): cv.boolean,
             cv.Optional(CONF_UPDATE_BAUD_RATE, default=921600): cv.positive_int,
+            cv.Optional(CONF_ADV_UPDATE_MODE, default=0): cv.positive_int,
         }
     )
         .extend(uart.UART_DEVICE_SCHEMA)
@@ -77,6 +79,7 @@ async def to_code(config):
     cg.add(var.set_berry_driver_version(config[CONF_BERRY_DRIVER_VERSION]))
     cg.add(var.set_missed_updates_workaround(config[CONF_USE_MISSED_UPDATES_WORKAROUND]))
     cg.add(var.set_update_baud_rate(config[CONF_UPDATE_BAUD_RATE]))
+    cg.add(var.set_adv_update_mode(config[CONF_ADV_UPDATE_MODE]))
 
     for conf in config.get(CONF_INCOMING_MSG, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
