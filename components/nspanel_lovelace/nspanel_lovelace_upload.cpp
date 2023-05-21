@@ -198,6 +198,7 @@ void NSPanelLovelace::upload_tft(const std::string &url) {
     case 0:
       break;
     case 6:
+      this->set_baud_rate_(9600);
       whmiVersion=0;
       break;
   }
