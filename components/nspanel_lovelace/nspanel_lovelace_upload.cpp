@@ -128,7 +128,15 @@ void NSPanelLovelace::upload_tft(const std::string &url) {
     ESP_LOGD(TAG, "network is not connected");
     return;
   }
-
+  int whmiVersion=1;
+  switch(this->adv_update_mode_){
+    case 0:
+      break;
+    case 6:
+      this->set_baud_rate_(9600);
+      whmiVersion=0;
+      break;
+  }
   if (!this->reparse_mode_) {
     this->start_reparse_mode();
   }
@@ -193,15 +201,8 @@ void NSPanelLovelace::upload_tft(const std::string &url) {
   // Once the Nextion accepts the command it will wait until the file is successfully uploaded
   // If it fails for any reason a power cycle of the display will be needed
   
-  int whmiVersion=1;
-  switch(this->adv_update_mode_){
-    case 0:
-      break;
-    case 6:
-      this->set_baud_rate_(9600);
-      whmiVersion=0;
-      break;
-  }
+ 
+
   if(whmiVersion==1){
     sprintf(command, "whmi-wris %d,%d,1", this->content_length_, this->update_baud_rate_);
   }else{
